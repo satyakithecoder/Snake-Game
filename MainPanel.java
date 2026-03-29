@@ -25,9 +25,11 @@ public class MainPanel extends JPanel
       this.add(mainContainer);
    }
    public void goToGame() {
-        cardLayout.show(this, "GAME_SCREEN"); // we are passing this because we are still writing code in class for modular approach.
-        
+        cardLayout.show(mainContainer, "GAME_BOARD");
+        mainContainer.revalidate();
+        mainContainer.repaint();
+
         // Critical for Games: Transfer keyboard focus to the game area
-        game.requestFocusInWindow();
+        SwingUtilities.invokeLater(() -> game.requestFocusInWindow());
     }
 }
