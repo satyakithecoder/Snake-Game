@@ -1,5 +1,5 @@
 #BlueJ class context
 comment0.target=GameBoard
-comment1.params=args
-comment1.target=void\ main(java.lang.String[])
+comment1.params=
+comment1.target=GameBoard()
 numComments=2
