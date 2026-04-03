@@ -3,6 +3,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.util.*;
 
+
 public class GameBoard extends JPanel
 { 
    private final int CELL = 25; 
@@ -20,7 +21,7 @@ public class GameBoard extends JPanel
    private final int[] x = new int[ALL_TILES];
    private final int[] y = new int[ALL_TILES];
    private int bodyParts = 1;
-   private char direction = 'R';
+   private int count = 0;
    private boolean running = false;
    
    public GameBoard(){
@@ -31,27 +32,31 @@ public class GameBoard extends JPanel
    }
    
    private void initGame(){
+       count = 0;
        spawnApple();
+       spawnSnake();
    }
    
    private void spawnApple(){
-       appleX = random.nextInt((int)(WIDTH / CELL)) * CELL; /*1. The Division: (WIDTH / TILE_SIZE)This tells us how many columns exist in your 
-       grid.800 / 25 = 32 columns.We are essentially saying: "Our world is 32 tiles wide."
+       appleX = random.nextInt((int)(WIDTH / CELL)) * CELL; /*1. The Division: (WIDTH / TILE_SIZE)This tells us how many
+       columns exist in your grid.800 / 25 = 32 columns.We are essentially saying: "Our world is 32 tiles wide."
        2. The Random: random.nextInt(32)The nextInt(max) 
-       method picks a random whole number between 0 and 31.It chooses a Tile Index, not a pixel coordinate.Imagine picking a random slot 
-       in a ice cube tray.
+       method picks a random whole number between 0 and 31.It chooses a Tile Index, not a pixel coordinate.Imagine picking
+       a random slot in a ice cube tray.
        3. The Multiplication: * TILE_SIZE This converts the "Tile Index" back into Pixels so the computer knows where to 
-       draw it on the screen.If the random number was 0, the position is 0 * 25.If the random number was 31, the position is 31, 
-       31 * 25 = 77*/
+       draw it on the screen.If the random number was 0, the position is 0 * 25.If the random number was 31, the position 
+       is 31, 31 * 25 = 77*/
        appleY = random.nextInt((int)(HEIGHT / CELL)) * CELL; // same explanation foe this.
    }
    
    private void spawnSnake(){
-       
+       x[count] = CELL * 5;/* it says our snake should be 5 steps away from the top-left corner. Multiplying with 
+                              CEll converts it into coordinates*/
+       y[count] = CELL * 5;
    }
    
    private void move(){
-       
+     
    }
    //this method is part of JPanel and compulsory to add before drawing graphics.
    @Override
@@ -61,5 +66,21 @@ public class GameBoard extends JPanel
         /*we will set color and use predefined method to draw shapes, write something etc.*/
         g.setColor(Color.RED);
         g.fillOval(appleX, appleY, CELL, CELL);
-    }
+        //snake spawning of parts
+        g.setColor(Color.GREEN);
+        for(int i = 0; i < bodyParts; i++){
+           if(i == 0) {
+           g.setColor(Color.GREEN); // Bright Green for the Head
+           } else {
+           g.setColor(new Color(45, 180, 0)); // Darker Green for the Body
+           }
+           g.fillRect(x[i], y[i], CELL, CELL);
+        }
+   }
+   
+   @Override
+   public void actionPerformed(ActionEvent e) {
+       
+   }
+    
 }
