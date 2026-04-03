@@ -2,4 +2,10 @@
 comment0.target=GameBoard
 comment1.params=
 comment1.target=GameBoard()
-numComments=2
+comment2.params=
+comment2.target=void\ initGame()
+comment3.params=
+comment3.target=void\ spawnApple()
+comment4.params=g
+comment4.target=void\ paintComponent(java.awt.Graphics)
+numComments=5

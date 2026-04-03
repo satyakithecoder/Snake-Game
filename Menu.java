@@ -7,8 +7,12 @@ public class Menu extends JPanel
    /*
    Code should always wriiten like a class whose object is going to be created in other class.
    */
-    Menu(MainPanel switcher){
-       int pw = 800, ph = 700, btnWidth = 175, btnHeight = 50, x, y;
+    private final int pw, ph, btnWidth, btnHeight, x, y;
+    public Menu(MainPanel switcher){
+       this.pw = 800;
+       this.ph = 700;
+       this.btnWidth = 175;
+       this.btnHeight = 50;
        this.setBackground(Color.RED);
        this.setPreferredSize(new Dimension(pw, ph)); // w * h (int input)
        JButton start = new JButton("START");

@@ -2,5 +2,4 @@
 comment0.target=Menu
 comment1.params=switcher
 comment1.target=Menu(MainPanel)
-comment1.text=\r\n\ \ \ Code\ should\ always\ wriiten\ like\ a\ class\ whose\ object\ is\ going\ to\ be\ created\ in\ other\ class.\r\n
 numComments=2
