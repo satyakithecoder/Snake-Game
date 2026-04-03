@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=ScoreManager
+comment1.params=score
+comment1.target=void\ saveHighScore(int)
+comment2.params=
+comment2.target=int\ getHighScore()
+numComments=3
