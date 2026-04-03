@@ -1,10 +1,12 @@
 //write code adhering to OOPs principles like abstraction, polymorphism etc.
 import java.awt.*;
 import javax.swing.*;
-import java.util.*;
+import java.util.Random;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
-public class GameBoard extends JPanel
+public class GameBoard extends JPanel implements ActionListener
 { 
    private final int CELL = 25; 
     private final int WIDTH = 800;
@@ -23,18 +25,77 @@ public class GameBoard extends JPanel
    private int bodyParts = 1;
    private int count = 0;
    private boolean running = false;
+   private char direction = 'R';
+   private final Timer timer;
    
    public GameBoard(){
       this.setBackground(Color.BLACK);
       this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+      this.setFocusable(true);
       this.random = new Random();
+      this.timer = new Timer(120, this);
+      setupWASDControls();
       initGame();
    }
    
    private void initGame(){
        count = 0;
+       bodyParts = 1;
+       running = true;
+       direction = 'R';
        spawnApple();
        spawnSnake();
+       timer.start();
+   }
+
+   private void setupWASDControls() {
+       InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+       ActionMap actionMap = getActionMap();
+
+       inputMap.put(KeyStroke.getKeyStroke('W'), "moveUp");
+       inputMap.put(KeyStroke.getKeyStroke('w'), "moveUp");
+       inputMap.put(KeyStroke.getKeyStroke('A'), "moveLeft");
+       inputMap.put(KeyStroke.getKeyStroke('a'), "moveLeft");
+       inputMap.put(KeyStroke.getKeyStroke('S'), "moveDown");
+       inputMap.put(KeyStroke.getKeyStroke('s'), "moveDown");
+       inputMap.put(KeyStroke.getKeyStroke('D'), "moveRight");
+       inputMap.put(KeyStroke.getKeyStroke('d'), "moveRight");
+
+       actionMap.put("moveUp", new AbstractAction() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               if (direction != 'D') {
+                   direction = 'U';
+               }
+           }
+       });
+
+       actionMap.put("moveLeft", new AbstractAction() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               if (direction != 'R') {
+                   direction = 'L';
+               }
+           }
+       });
+
+       actionMap.put("moveDown", new AbstractAction() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               if (direction != 'U') {
+                   direction = 'D';
+               }
+           }
+       });
+
+       actionMap.put("moveRight", new AbstractAction() {
+           @Override
+           public void actionPerformed(ActionEvent e) {
+               if (direction != 'L') {
+                   direction = 'R';
+               }
+           }
+       });
    }
    
    private void spawnApple(){
@@ -56,6 +117,25 @@ public class GameBoard extends JPanel
    }
    
    private void move(){
+      for(int i = bodyParts; i > 0; i--){
+          x[i] = x[i - 1];
+          y[i] = y[i - 1];
+      }
+
+      switch (direction) {
+          case 'U':
+              y[0] -= CELL;
+              break;
+          case 'D':
+              y[0] += CELL;
+              break;
+          case 'L':
+              x[0] -= CELL;
+              break;
+          default:
+              x[0] += CELL;
+              break;
+      }
      
    }
    //this method is part of JPanel and compulsory to add before drawing graphics.
@@ -80,7 +160,11 @@ public class GameBoard extends JPanel
    
    @Override
    public void actionPerformed(ActionEvent e) {
-       
+       if (!running) {
+           return;
+       }
+       move();
+       repaint();
    }
     
 }
