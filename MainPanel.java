@@ -15,19 +15,21 @@ public class MainPanel extends JPanel
        all panels are plassed in a stack one above another and it searches the appropriate panel
       */ 
       cardLayout = new CardLayout();
+      this.setLayout(new BorderLayout());
       mainContainer = new JPanel(cardLayout);  /* we can use this too . mainContainer = new JPanel();
                                                   mainContainer.setLayout(cardLayout);*/
       menu = new Menu(this);
-      game = new GameBoard();
+      game = new GameBoard(this);
       highScoreLabel = new JLabel("High Score: " + ScoreManager.getHighScore());
-      this.add(highScoreLabel);
+      this.add(highScoreLabel, BorderLayout.NORTH);
       mainContainer.add(menu, "MENU"); /* add is used to add elements in JPanel. In this method always have to pass awt component like JFrame,
                                           JButton, JPanel etc. */  
       mainContainer.add(game, "GAME_BOARD");
-      this.add(mainContainer);
+      this.add(mainContainer, BorderLayout.CENTER);
    }
    
    public void goToGame() {
+        game.resetGame();
         cardLayout.show(mainContainer, "GAME_BOARD");
         mainContainer.revalidate();
         mainContainer.repaint();
