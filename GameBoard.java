@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.util.Random;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter; 
 import java.awt.event.KeyEvent;   
 
@@ -34,9 +32,10 @@ public class GameBoard extends JPanel implements ActionListener
    private final int[] y = new int[ALL_TILES];
    private int bodyParts = 1;
    private char direction = 'R';
-   private MainPanel parent;
+   private final MainPanel parent;
    
-   public GameBoard(){
+   public GameBoard(MainPanel parent){
+      this.parent = parent;
       this.setBackground(Color.BLACK);
       this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
       this.setFocusable(true);
@@ -49,6 +48,7 @@ public class GameBoard extends JPanel implements ActionListener
    
    private void initGame(){
        bodyParts = 1;
+       direction = 'R';
        spawnApple();
        spawnSnake();
        this.running = true;
@@ -126,7 +126,7 @@ public class GameBoard extends JPanel implements ActionListener
     if (x[0] < 0 || x[0] >= WIDTH || y[0] < 0 || y[0] >= HEIGHT) {
         running = false; 
     }
-    for (int i = bodyParts; i > 0; i--) {
+    for (int i = 1; i < bodyParts; i++) {
         if (x[0] == x[i] && y[0] == y[i]) {
             running = false; 
         }
@@ -191,9 +191,17 @@ public class GameBoard extends JPanel implements ActionListener
    public void actionPerformed(ActionEvent e) {
     if (running) {
         move();
+        checkCollision();
     }
     repaint(); /*It is a built-in method in JPanel which again calls the paintComponent as it requires Graphics object which
                  only systems provide*/
+   }
+
+   public void resetGame() {
+      if (timer != null) {
+         timer.stop();
+      }
+      initGame();
    }
    
    public void gameOver(){
